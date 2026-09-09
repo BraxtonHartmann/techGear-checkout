@@ -6,42 +6,32 @@
 
 import CategoryFilter from "./CategoryFilter";
 import ScoreCard from "./ScoreCard";
-import { useState } from "react";
 
 function LeaderboardList(props) {
-    const [filterType, setFilterType] = useState('all');
-
-    const filterChangeHandler = (selectedType) => {
-        setFilterType(selectedType);
-    }
-
-    const filteredGames = props.scores.filter((score) => {
-        if (filterType === 'all') {
-            return true;
-        }
-    
-        return score.category === filterType;
-    });
-
 
     return (
         <div className="card">
             <h2>Leaderboard</h2>
-            <CategoryFilter onChangeFilter={filterChangeHandler} />
 
-            {filteredGames.map((score) => (
-                <ScoreCard
-                    key={score.id}
-                    initials={score.playerInitials}
-                    gameTitle={score.gameTitle}
-                    highScore={score.score}
-                    category={score.category}
-                />
-            ))}
+            <CategoryFilter
+                selected={props.selected}
+                onChangeFilter={props.onChangeFilter}
+            />
 
-
-
-        </div >
+            {props.scores.length === 0 ? (
+                <p>No Games Found</p>
+            ) : (
+                props.scores.map((score) => (
+                    <ScoreCard
+                        key={score.id}
+                        initials={score.playerInitials}
+                        gameTitle={score.gameTitle}
+                        highScore={score.score}
+                        category={score.category}
+                    />
+                ))
+            )}
+        </div>
     )
 }
 

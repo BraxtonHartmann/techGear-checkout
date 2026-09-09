@@ -2,16 +2,11 @@ import { useState } from 'react'
 import './App.css'
 import NewScoreForm from './components/NewScoreForm';
 import LeaderboardList from './components/LeaderboardList';
+import ScoreSummary from './components/ScoreSummary';
 
 
 // Step-by-Step Technical Instructions
 
-
-// 4. Derived Summary Stats (ScoreSummary.jsx):
-// Create a ScoreSummary.jsx component that displays derived analytics (i.e., total 
-// entries count, highest overall score, or average points).
-// Compute values directly from props in real time during rendering. 
-// Do not introduce extra useState hooks for derived numbers.
 
 // 5. Central State Management & Event Flow (App.jsx):
 // In App.jsx:
@@ -48,15 +43,31 @@ function App() {
   ];
 
   const [scores, setScores] = useState(INITIAL_SCORES);
+  const [filterType, setFilterType] = useState('all');
 
-  const addScoreHandler = (newInput) =>{
+  const addScoreHandler = (newInput) => {
     setScores((prevScores) => [newInput, ...prevScores])
-  } 
+  }
+  const filterChangeHandler = (selectedType) => {
+    setFilterType(selectedType);
+  }
+  const filteredGames = scores.filter((score) => {
+    if (filterType === 'all') {
+      return true;
+    }
+
+    return score.category === filterType;
+  });
 
   return (
     <div>
-      <NewScoreForm onAddScore = {addScoreHandler}/>
-      <LeaderboardList scores = {scores}/>
+      <NewScoreForm onAddScore={addScoreHandler} />
+      <ScoreSummary games={filteredGames} />
+      <LeaderboardList
+        scores={filteredGames}
+        selected={filterType}
+        onChangeFilter={filterChangeHandler}
+      />
     </div>
   )
 }
