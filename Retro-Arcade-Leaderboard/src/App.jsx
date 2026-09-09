@@ -1,121 +1,68 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
+import NewScoreForm from './components/NewScoreForm';
+import LeaderboardList from './components/LeaderboardList';
+
+
+// Step-by-Step Technical Instructions
+
+// 3. Filter Controls (CategoryFilter.jsx):
+// Create a CategoryFilter.jsx component containing a dropdown/select control for filtering 
+// entries by category (or "All Categories").
+// Lift the selected filter state up to App.jsx so filtering affects both the rendered 
+// list and summary statistics.
+
+// 4. Derived Summary Stats (ScoreSummary.jsx):
+// Create a ScoreSummary.jsx component that displays derived analytics (i.e., total 
+// entries count, highest overall score, or average points).
+// Compute values directly from props in real time during rendering. 
+// Do not introduce extra useState hooks for derived numbers.
+
+// 5. Central State Management & Event Flow (App.jsx):
+// In App.jsx:
+// Initialize state for the list of scores using useState(INITIAL_SCORES) and state 
+// for the category filter.
+// Implement an event handler function to add new entries using a functional state update 
+// and spread syntax (i.e., setScores((prevScores) => [newEntry, ...prevScores])).
+// Derive the filtered array of scores based on the current category state and pass down 
+// the filtered list to LeaderboardList and ScoreSummary.
 
 function App() {
-  const [count, setCount] = useState(0)
+  const INITIAL_SCORES = [
+    {
+      id: "s1",
+      playerInitials: "PAC",
+      gameTitle: "Pac-Man",
+      score: 3333360,
+      category: "Arcade Classic"
+    },
+    {
+      id: "s2",
+      playerInitials: "MAR",
+      gameTitle: "Donkey Kong",
+      score: 1260700,
+      category: "Arcade Classic"
+    },
+    {
+      id: "s3",
+      playerInitials: "ACE",
+      gameTitle: "Galaga",
+      score: 1599100,
+      category: "Sci-Fi Shooter"
+    }
+  ];
+
+  const [scores, setScores] = useState(INITIAL_SCORES);
+
+  const addScoreHandler = (newInput) =>{
+    setScores((prevScores) => [newInput, ...prevScores])
+  } 
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <div>
+      <NewScoreForm onAddScore = {addScoreHandler}/>
+      <LeaderboardList scores = {scores}/>
+    </div>
   )
 }
 
