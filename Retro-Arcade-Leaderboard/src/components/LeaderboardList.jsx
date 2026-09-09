@@ -4,16 +4,32 @@
 // Use .map() to render each score item dynamically, ensuring every rendered 
 // element receives a unique key prop (i.e., score.id).
 
+import CategoryFilter from "./CategoryFilter";
 import ScoreCard from "./ScoreCard";
-// playerInitials: "PAC",
-// gameTitle: "Pac-Man",
-// score: 3333360,
-// category: "Arcade Classic"
+import { useState } from "react";
+
 function LeaderboardList(props) {
+    const [filterType, setFilterType] = useState('all');
+
+    const filterChangeHandler = (selectedType) => {
+        setFilterType(selectedType);
+    }
+
+    const filteredGames = props.scores.filter((score) => {
+        if (filterType === 'all') {
+            return true;
+        }
+    
+        return score.category === filterType;
+    });
+
+
     return (
         <div className="card">
             <h2>Leaderboard</h2>
-            {props.scores.map((score) => (
+            <CategoryFilter onChangeFilter={filterChangeHandler} />
+
+            {filteredGames.map((score) => (
                 <ScoreCard
                     key={score.id}
                     initials={score.playerInitials}

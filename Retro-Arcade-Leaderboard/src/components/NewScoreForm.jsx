@@ -13,16 +13,16 @@ function NewScoreForm(props) {
     const [enteredInitials, setEnteredInitials] = useState('');
     const [enteredGameTitle, setEnteredGameTitle] = useState('');
     const [enteredHighScore, setEnteredHighScore] = useState('');
-    const [enteredCategory, setEnteredCategory] = useState('arcadeClassic');
+    const [enteredCategory, setEnteredCategory] = useState('Arcade Classic');
 
     const submitHandler = (event) => {
         event.preventDefault();
 
         const scoreData = {
-            key: Math.random().toString(),
+            id: Math.random().toString(),
             playerInitials: enteredInitials,
             gameTitle: enteredGameTitle,
-            highScore: enteredHighScore,
+            score: enteredHighScore,
             category: enteredCategory
         }
 
@@ -31,7 +31,7 @@ function NewScoreForm(props) {
         setEnteredInitials('');
         setEnteredGameTitle('');
         setEnteredHighScore('');
-        setEnteredCategory('arcadeClassic');
+        setEnteredCategory('Arcade Classic');
     }
     
 
@@ -65,8 +65,8 @@ function NewScoreForm(props) {
                 <select
                     value={enteredCategory}
                     onChange={(e) => setEnteredCategory(e.target.value)}>
-                    <option value="arcadeClassic">Arcade Classic</option>
-                    <option value="shooter">Sci-Fi Shooter</option>
+                    <option value="Arcade Classic">Arcade Classic</option>
+                    <option value="Sci-Fi Shooter">Sci-Fi Shooter</option>
                     <option value="maze">Maze</option>
                     <option value="racing">Racing</option>
                 </select>

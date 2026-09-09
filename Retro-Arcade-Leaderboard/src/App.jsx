@@ -6,11 +6,6 @@ import LeaderboardList from './components/LeaderboardList';
 
 // Step-by-Step Technical Instructions
 
-// 3. Filter Controls (CategoryFilter.jsx):
-// Create a CategoryFilter.jsx component containing a dropdown/select control for filtering 
-// entries by category (or "All Categories").
-// Lift the selected filter state up to App.jsx so filtering affects both the rendered 
-// list and summary statistics.
 
 // 4. Derived Summary Stats (ScoreSummary.jsx):
 // Create a ScoreSummary.jsx component that displays derived analytics (i.e., total 
